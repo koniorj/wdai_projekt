@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import Navbar from "./components/Navbar";
@@ -8,6 +8,7 @@ import ProductDetails from "./views/ProductDetails";
 import Cart from "./views/Cart";
 import Login from "./views/Login";
 import Orders from "./views/Orders";
+import Register from "./views/Register";
 
 const theme = createTheme({
   typography: {
@@ -27,17 +28,21 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Navbar />
-        <Container sx={{ mt: 10 }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-
-            <Route path="/orders" element={<Orders />} />
-          </Routes>
-        </Container>
+        1a1d23
+        <Box sx={{ minHeight: "100vh", bgcolor: "#282c34" }}>
+          <Navbar />
+          <Container sx={{ pt: 1, pb: 4 }}>
+            {" "}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />{" "}
+              <Route path="/orders" element={<Orders />} />
+            </Routes>
+          </Container>
+        </Box>
       </Router>
     </ThemeProvider>
   );

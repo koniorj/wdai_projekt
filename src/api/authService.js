@@ -12,12 +12,17 @@ export const generateToken = (payload, minutes) => {
 export const generateRefreshToken = () => crypto.randomUUID();
 
 export const loginUser = (login, password) => {
-  const user = users.find((u) => u.login === login && u.password === password);
+  const registeredUsers =
+    JSON.parse(localStorage.getItem("registered_users")) || [];
+  const allUsers = [...users, ...registeredUsers];
 
-  if (!user) throw new Error("Błędne dane logowania");
+  const user = allUsers.find(
+    (u) => u.login === login && u.password === password
+  );
+
+  if (!user) return null;
 
   const accessToken = generateToken({ userId: user.id, role: user.role }, 5);
-
   const refreshToken = generateRefreshToken();
 
   const authData = {
@@ -28,6 +33,29 @@ export const loginUser = (login, password) => {
 
   localStorage.setItem("auth", JSON.stringify(authData));
   return authData;
+};
+
+export const registerUser = (login, password) => {
+  const registeredUsers =
+    JSON.parse(localStorage.getItem("registered_users")) || [];
+  const userExists =
+    users.some((u) => u.login === login) ||
+    registeredUsers.some((u) => u.login === login);
+
+  if (userExists) return false;
+
+  const newUser = {
+    id: Date.now(),
+    login,
+    password,
+    role: "user",
+  };
+
+  localStorage.setItem(
+    "registered_users",
+    JSON.stringify([...registeredUsers, newUser])
+  );
+  return true;
 };
 
 export const logoutUser = () => {
