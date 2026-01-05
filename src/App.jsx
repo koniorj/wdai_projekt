@@ -7,8 +7,9 @@ import Home from "./views/Home";
 import ProductDetails from "./views/ProductDetails";
 import Cart from "./views/Cart";
 import Login from "./views/Login";
-import Orders from "./views/Orders";
 import Register from "./views/Register";
+import Orders from "./views/Orders";
+import OrderDetails from "./views/OrderDetails";
 
 const theme = createTheme({
   typography: {
@@ -28,18 +29,20 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        1a1d23
         <Box sx={{ minHeight: "100vh", bgcolor: "#282c34" }}>
           <Navbar />
-          <Container sx={{ pt: 1, pb: 4 }}>
-            {" "}
+
+          <Container sx={{ pt: 10, pb: 4 }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
+
               <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />{" "}
+              <Route path="/register" element={<Register />} />
+
               <Route path="/orders" element={<Orders />} />
+              <Route path="/orders/:orderId" element={<OrderDetails />} />
             </Routes>
           </Container>
         </Box>

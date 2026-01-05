@@ -32,14 +32,16 @@ const Cart = () => {
       return;
     }
 
-    const existingOrders =
-      JSON.parse(localStorage.getItem("orders")) || [];
+    const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
 
     const newOrder = {
       id: Date.now(),
       userId: user.id,
       date: new Date().toLocaleString(),
-      items: cart,
+      items: cart.map((item) => ({
+        ...item,
+        quantity: item.quantity ?? 1,
+      })),
       total,
     };
 
@@ -56,7 +58,11 @@ const Cart = () => {
     return (
       <Container sx={{ minHeight: "80vh", pt: 15, textAlign: "center" }}>
         <Typography variant="h5">Twój koszyk jest pusty</Typography>
-        <Button sx={{ mt: 3 }} variant="contained" onClick={() => navigate("/")}>
+        <Button
+          sx={{ mt: 3 }}
+          variant="contained"
+          onClick={() => navigate("/")}
+        >
           Wróć do zakupów
         </Button>
       </Container>

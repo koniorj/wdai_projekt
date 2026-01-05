@@ -1,44 +1,66 @@
-import { Container, Typography, Card, Box } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  Button,
+  Box,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
 
 const Orders = () => {
   const { user, isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" />;
+    navigate("/login");
+    return null;
   }
 
-  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const orders =
+    JSON.parse(localStorage.getItem("orders")) || [];
 
-  const userOrders = orders.filter((order) => order.userId === user.id);
+  const userOrders = orders.filter(
+    (order) => order.userId === user.id
+  );
 
   return (
     <Container sx={{ pt: 12 }}>
       <Typography variant="h4" gutterBottom>
-        Historia zakupów
+        Historia zamówień
       </Typography>
 
-      {userOrders.length === 0 && <Typography>Brak zamówień</Typography>}
-
-      {userOrders.map((order) => (
-        <Card key={order.id} sx={{ p: 3, mb: 2 }}>
-          <Typography variant="h6">Zamówienie #{order.id}</Typography>
-          <Typography variant="body2">Data: {order.date}</Typography>
-
-          <Box sx={{ mt: 2 }}>
-            {order.items.map((item, idx) => (
-              <Typography key={idx}>
-                • {item.title} – ${item.price}
+      {userOrders.length === 0 ? (
+        <Typography>Brak zamówień</Typography>
+      ) : (
+        userOrders.map((order) => (
+          <Card key={order.id} sx={{ mb: 2 }}>
+            <CardContent>
+              <Typography>
+                <b>Numer zamówienia:</b> {order.id}
               </Typography>
-            ))}
-          </Box>
+              <Typography>
+                <b>Data:</b> {order.date}
+              </Typography>
+              <Typography>
+                <b>Łączna kwota:</b> ${order.total}
+              </Typography>
 
-          <Typography sx={{ mt: 2 }} fontWeight="bold">
-            Suma: ${order.total}
-          </Typography>
-        </Card>
-      ))}
+              <Box sx={{ mt: 2 }}>
+                <Button
+                  variant="outlined"
+                  onClick={() =>
+                    navigate(`/orders/${order.id}`)
+                  }
+                >
+                  Szczegóły
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        ))
+      )}
     </Container>
   );
 };
