@@ -1,11 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import {
-  loginUser,
-  logoutUser,
-  getAuth,
-  isTokenValid,
-  refreshAccessToken,
-} from "../api/authService";
+import * as authService from "../api/authService";
 
 const AuthContext = createContext();
 
@@ -13,24 +7,32 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
 
   useEffect(() => {
-    const stored = getAuth();
+    const stored = authService.getAuth();
     if (stored) {
-      if (isTokenValid(stored.accessToken)) {
+      if (authService.isTokenValid(stored.accessToken)) {
         setAuth(stored);
       } else {
-        const refreshed = refreshAccessToken();
+        const refreshed = authService.refreshAccessToken();
         setAuth(refreshed);
       }
     }
   }, []);
 
   const login = (login, password) => {
-    const data = loginUser(login, password);
-    setAuth(data);
+    const data = authService.loginUser(login, password);
+    if (data) {
+      setAuth(data);
+      return true;
+    }
+    return false;
+  };
+
+  const register = (login, password) => {
+    return authService.registerUser(login, password);
   };
 
   const logout = () => {
-    logoutUser();
+    authService.logoutUser();
     setAuth(null);
   };
 
@@ -41,6 +43,7 @@ export const AuthProvider = ({ children }) => {
         isLoggedIn: !!auth,
         role: auth?.user?.role,
         login,
+        register,
         logout,
       }}
     >

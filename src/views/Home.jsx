@@ -41,7 +41,7 @@ const Home = () => {
     // lg nam rozciaga i dopasowuje jakby
     <Container maxWidth="lg" sx={{ pt: { xs: 7, sm: 9 } }}>
       {/* box jest jak div */}
-      <Box sx={{ textAlign: "center", mb: 3 }}>
+      <Box sx={{ textAlign: "center", mb: 3, mt: 0 }}>
         <TextField
           fullWidth
           label="Szukaj..."

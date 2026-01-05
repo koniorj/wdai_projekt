@@ -156,7 +156,7 @@ const ProductDetails = () => {
           Opinie użytkowników ({reviews.length})
         </Typography>
 
-        <Box sx={{ display: "flex", gap: 2, mb: 5 }}>
+        <Box sx={{ display: "flex", gap: 2, mb: 5, alignItems: "flex-end" }}>
           <TextField
             fullWidth
             label="Twoja opinia..."
@@ -180,10 +180,12 @@ const ProductDetails = () => {
               bgcolor: "#316E9A",
               textTransform: "none",
               px: 4,
-              height: "56px",
+              height: "74px",
+              mb: "4px",
+              fontStyle: "bold",
             }}
           >
-            Dodaj
+            DODAJ
           </Button>
         </Box>
 

@@ -3,22 +3,31 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const { login } = useAuth();
+const Register = () => {
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
     login: "",
     password: "",
+    confirmPassword: "",
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const success = login(form.login, form.password);
+    if (form.password !== form.confirmPassword) {
+      alert("Hasła są inne!");
+      return;
+    }
 
-    if (success !== false) {
-      navigate("/");
+    const success = register(form.login, form.password);
+
+    if (success) {
+      alert("Konto utworzone pomyślnie!");
+      navigate("/login");
+    } else {
+      alert("Ten login jest już zajęty.");
     }
   };
 
@@ -42,25 +51,37 @@ const Login = () => {
         }}
       >
         <Typography variant="h5" textAlign="center" fontWeight="bold">
-          Logowanie
+          Rejestracja
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
-            label="Login"
+            label="Nowy Login"
             fullWidth
             margin="normal"
+            required
             value={form.login}
             onChange={(e) => setForm({ ...form, login: e.target.value })}
           />
-
           <TextField
             label="Hasło"
             type="password"
             fullWidth
             margin="normal"
+            required
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
+          />
+          <TextField
+            label="Powtórz Hasło"
+            type="password"
+            fullWidth
+            margin="normal"
+            required
+            value={form.confirmPassword}
+            onChange={(e) =>
+              setForm({ ...form, confirmPassword: e.target.value })
+            }
           />
 
           <Button
@@ -68,38 +89,27 @@ const Login = () => {
             variant="contained"
             fullWidth
             size="large"
-            sx={{
-              mt: 2,
-              bgcolor: "#316E9A",
-              "&:hover": {
-                bgcolor: "#255a7d",
-              },
-            }}
+            sx={{ mt: 3, bgcolor: "#316D98" }}
           >
-            Zaloguj się
+            Zarejestruj się
           </Button>
 
-          <Box sx={{ mt: 2, textAlign: "center", color: "#316D98" }}>
-            <Typography variant="body2" sx={{ color: "white" }}>
-              Nie masz jeszcze konta?{" "}
-              <Button
-                variant="text"
-                onClick={() => navigate("/register")}
-                sx={{
-                  textAlign: "center",
-                  color: "#316D98",
-                  textTransform: "none",
-                  fontWeight: "bold",
-                }}
-              >
-                STWÓRZ KONTO
-              </Button>
-            </Typography>
-          </Box>
+          <Button
+            fullWidth
+            sx={{
+              mt: 1,
+              color: "#316D98",
+              textTransform: "none",
+              fontWeight: "bold",
+            }}
+            onClick={() => navigate("/login")}
+          >
+            ZALOGUJ SIĘ
+          </Button>
         </Box>
       </Paper>
     </Box>
   );
 };
 
-export default Login;
+export default Register;

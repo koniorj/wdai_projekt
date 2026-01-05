@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import Navbar from "./components/Navbar";
@@ -7,6 +7,7 @@ import Home from "./views/Home";
 import ProductDetails from "./views/ProductDetails";
 import Cart from "./views/Cart";
 import Login from "./views/Login";
+import Register from "./views/Register";
 import Orders from "./views/Orders";
 import OrderDetails from "./views/OrderDetails";
 
@@ -28,18 +29,23 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Navbar />
-        <Container sx={{ mt: 10 }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
+        <Box sx={{ minHeight: "100vh", bgcolor: "#282c34" }}>
+          <Navbar />
 
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/orders/:orderId" element={<OrderDetails />} />
-          </Routes>
-        </Container>
+          <Container sx={{ pt: 10, pb: 4 }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/cart" element={<Cart />} />
+
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/orders/:orderId" element={<OrderDetails />} />
+            </Routes>
+          </Container>
+        </Box>
       </Router>
     </ThemeProvider>
   );
