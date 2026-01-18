@@ -126,7 +126,7 @@ const ProductDetails = () => {
               }}
             />
             <IconButton
-              onClick={() => addToCart({ ...product, quantity })}
+              onClick={() => addToCart(product, quantity)}
               sx={{
                 bgcolor: "white",
                 color: "black",
